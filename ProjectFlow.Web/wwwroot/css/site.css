@@ -31,11 +31,26 @@ body {
 .heroCard {
     border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
     border: solid 2px black;
-    height:200px
+    min-height:200px
+}
+.heroCard:hover{
+    transform:scale(1.1);
+    cursor:pointer;
 }
 
-
-
+.heroBg {
+    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+    border: solid 2px black;
+}
+.pencil-underline:hover {
+    border-radius: 50% 5% 50% 5% / 5% 50% 5% 50%;
+    border: 5px double white;
+    cursor:pointer;
+}
+#title{
+    width:300px;
+    height:70px;
+}
 
 
 
