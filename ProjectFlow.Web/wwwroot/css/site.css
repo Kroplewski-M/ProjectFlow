@@ -29,9 +29,9 @@ body {
     font-size: 50px;
 }
 .heroCard {
-    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
-    border: solid 2px black;
-    min-height:200px
+    border: solid 2px white;
+    border-radius: 2px;
+    min-height: 200px
 }
 .heroCard:hover{
     transform:scale(1.1);
@@ -39,8 +39,7 @@ body {
 }
 
 .heroBg {
-    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
-    border: solid 2px black;
+    border-radius:2px;
 }
 .pencil-underline:hover {
     border-radius: 50% 5% 50% 5% / 5% 50% 5% 50%;
