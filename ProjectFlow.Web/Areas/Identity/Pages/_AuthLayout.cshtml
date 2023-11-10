@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-5 mt-5">
+        <div class="card">
+            <div class="card-header bg-primary">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-items">
+                        <a href="/Identity/Account/Register" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-items">
+                        <a href="/Identity/Account/Login" class="nav-link">Login</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="my-4">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(function (){
+            const currentPage = location.pathname;
+            $('.nav-tabs li a').each(function (){
+                const $this = $(this);
+                if(currentPage.toLowerCase().indexOf($this.attr('href').toLowerCase()) != -1){
+                    $this.addClass('active fw-bold text-primary');
+                }else{
+                    $this.addClass('text-light');
+                }
+            })
+        })
+    </script>
+}
