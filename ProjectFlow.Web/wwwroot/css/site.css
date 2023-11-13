@@ -50,6 +50,29 @@ body {
     width:300px;
     height:70px;
 }
-
-
+.addBoard {
+    width: 300px;
+    height: 200px;
+    border-radius: 5px;
+    background-color: darkgray;
+    display:grid;
+    place-content:center;
+    place-items:center
+}
+.addBoard:hover {
+   cursor: pointer;
+   background-color: #78c2ad;
+   transform: scale(1.1);
+}
+.addWorkSpace {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
