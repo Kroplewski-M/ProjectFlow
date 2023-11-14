@@ -4,9 +4,9 @@
 }
 
 <div class="container">
-    <h1><span class="fw-bold text-primary">ProjectFlow</span> Workspace: </h1>
+    <h1><span class="fw-bold text-primary">ProjectFlow</span> Workspaces: </h1>
     <div class="d-flex flex-wrap row mt-5">
-        <div class="addBoard  col-3" onclick="toggleWorkspace()">
+        <div class="Board col-md-3 col-12 me-3 mb-3" onclick="toggleWorkspace()" style="background-color:darkgray">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-plus-circle" viewBox="0 0 16 16">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -14,9 +14,8 @@
         </div>
         @foreach (var workspace in Model.Workspaces.OrderByDescending(w=>w.DateCreated))
         {
-            <div class="col-3">
-                <p>@workspace.Name</p>
-                <p>@workspace.Color</p>
+            <div class="col-3 Board me-3 mb-3" style="background-color:@workspace.Color">
+                <p class="workspaceTitle">@workspace.Name</p>
             </div>
         }
     </div>
@@ -38,7 +37,7 @@
                 </div>
                 <div class="mb-3 mt-4">
                     <label asp-for="@Model.CreateWorkspace.Color" class="form-label text-light fs-5">Color</label>
-                    <input type="color" asp-for="@Model.CreateWorkspace.Color" class="form-control" placeholder="Name" />
+                    <input type="color" asp-for="@Model.CreateWorkspace.Color" class="form-control" placeholder="Color" style="cursor:pointer" />
                     <span asp-validation-for="@Model.CreateWorkspace.Color" class="text-secondary"></span>
                 </div>
                 <button type="submit" class="w-100 btn btn-lg btn-light">Create Workspace</button>
