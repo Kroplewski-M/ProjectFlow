@@ -14,6 +14,7 @@ namespace ProjectFlow.Models.Business_Models
 
         public string Name { get; set; }
         public string Color { get; set; }
+        public DateTime DateCreated { get; set; }
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
     }

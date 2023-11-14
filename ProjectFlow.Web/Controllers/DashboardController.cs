@@ -26,8 +26,10 @@ namespace ProjectFlow.Web.Controllers
             return View(Dashboard);
         }
         [HttpPost]
-        public IActionResult Index(CreateWorkspaceViewModel workspace)
+        public IActionResult Index(DashboardViewModel workspace)
         {
+            CreateWorkspaceViewModel Createworkspace = workspace.CreateWorkspace;
+
             if (ModelState.IsValid)
             {
                 var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -35,8 +37,9 @@ namespace ProjectFlow.Web.Controllers
                 {
                     var workspaceAdd = new Workspace
                     {
-                        Name = workspace.Name,
-                        Color = workspace.Color,
+                        Name = Createworkspace.Name,
+                        Color = Createworkspace.Color,
+                        DateCreated = DateTime.Now,
                         UserId = userId,
                     };
                     _db.Workspaces.Add(workspaceAdd);
