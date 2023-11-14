@@ -47,10 +47,12 @@ namespace ProjectFlow.Web.Controllers
                 }
                 else
                 {
-
+                    TempData["error"] = "Error while creating workspace!";
+                    return RedirectToAction("Index");
                 }
 
             }
+            TempData["success"] = "Workspace Created!";
             return RedirectToAction("Index");
         }
     }
