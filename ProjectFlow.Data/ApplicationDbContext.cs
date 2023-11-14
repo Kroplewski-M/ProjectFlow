@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ProjectFlow.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using ProjectFlow.Models.Business_Models;
 
 namespace ProjectFlow.Data
 {
@@ -15,10 +16,11 @@ namespace ProjectFlow.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
 
+        public DbSet<Workspace>Workspaces { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            builder.Entity<Workspace>().HasOne(b =>b.User).WithMany().HasForeignKey(b=>b.UserId);
 
             //builder.HasDefaultSchema("Identity");
             builder.Entity<ApplicationUser>(entity =>

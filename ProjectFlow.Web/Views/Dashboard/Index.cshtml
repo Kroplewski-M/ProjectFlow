@@ -1,28 +1,47 @@
-﻿@{
+﻿@model ProjectFlow.Models.View_Models.DashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
 }
 
 <div class="container">
     <h1><span class="fw-bold text-primary">ProjectFlow</span> Workspace: </h1>
-    <div class="addBoard mt-5" onclick="toggleWorkspace()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-plus-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-        </svg>
+    <div class="d-flex flex-wrap row mt-5">
+        <div class="addBoard  col-3" onclick="toggleWorkspace()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+        </div>
+        @foreach (var workspace in Model.Workspaces)
+        {
+            <div class="col-3">
+                <p>@workspace.Name</p>
+
+            </div>
+        }
     </div>
-    <h4 class="mt-4 text-primary">Your have no work spaces, add one now!</h4>
+    @if (Model.Workspaces.Count() == 0)
+    {
+        <h4 class="mt-4 text-primary">Your have no work spaces, add one now!</h4>
+    }
     <div class="addWorkSpace" style="display:none">
-        <div class="bg-primary rounded">
-                <div onclick="toggleWorkspace()" class="ms-2 mt-2">
-                    <button class="btn btn-secondary">Close</button>
-                </div>
-            <form class="px-5 mt-2">
+        <div class="bg-primary rounded workspaceForm">
+            <div onclick="toggleWorkspace()" class="ms-2 mt-2">
+                <button class="btn btn-secondary">Close</button>
+            </div>
+            <form method="POST" class="px-5 mt-2 pb-3">
                 <h1>Add Workspace</h1>
                 <div class="form-floating mb-3 mt-4">
-                    <input class="form-control" placeholder="Name" />
-                    <label class="form-label">Workspace name</label>
-                    <span class="text-danger"></span>
+                    <input asp-for="@Model.CreateWorkspace.Name" class="form-control" placeholder="Name" />
+                    <label asp-for="@Model.CreateWorkspace.Name" class="form-label">Workspace name</label>
+                    <span asp-validation-for="@Model.CreateWorkspace.Name" class="text-danger fw-semibold workspaceValidation"></span>
                 </div>
+                <div class="mb-3 mt-4">
+                    <label asp-for="@Model.CreateWorkspace.Color" class="form-label text-light fs-5">Color</label>
+                    <input type="color" asp-for="@Model.CreateWorkspace.Color" class="form-control" placeholder="Name" />
+                    <span asp-validation-for="@Model.CreateWorkspace.Color" class="text-secondary"></span>
+                </div>
+                <button type="submit" class="w-100 btn btn-lg btn-light">Create Workspace</button>
             </form>
         </div>
     </div>
@@ -30,10 +49,8 @@
 
 @section Scripts
 {
+    <partial name="_ValidationScriptsPartial" />
     <script>
-        // $(document).on('click', '.addBoard', function () {
-        //     $('.addWorkSpace').toggle();
-        // });
         function toggleWorkspace(){
             $('.addWorkSpace').toggle();
         }
