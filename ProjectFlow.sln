@@ -5,9 +5,9 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectFlow.Web", "ProjectFlow.Web\ProjectFlow.Web.csproj", "{1E1DDD8F-A660-4E63-97B6-A00DFF5AC219}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectFlow.Data", "ProjectFlow.Data\ProjectFlow.Data.csproj", "{3143867E-24BB-45EF-93BC-0D1021E9D516}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectFlow.Data", "ProjectFlow.Data\ProjectFlow.Data.csproj", "{3143867E-24BB-45EF-93BC-0D1021E9D516}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectFlow.Models", "ProjectFlow.Models\ProjectFlow.Models.csproj", "{1AB5B707-435F-4426-8853-E4C94EF7E517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectFlow.Models", "ProjectFlow.Models\ProjectFlow.Models.csproj", "{1AB5B707-435F-4426-8853-E4C94EF7E517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
