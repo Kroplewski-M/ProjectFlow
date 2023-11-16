@@ -8,6 +8,8 @@ using ProjectFlow.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ProjectFlow.Models.Business_Models;
+using Task = ProjectFlow.Models.Business_Models.Task;
+using TaskStatus = ProjectFlow.Models.Business_Models.TaskStatus;
 
 namespace ProjectFlow.Data
 {
@@ -17,12 +19,19 @@ namespace ProjectFlow.Data
         { }
 
         public DbSet<Workspace>Workspaces { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskStatus> TaskStatuses { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            //WORKSPACE
             builder.Entity<Workspace>().HasOne(b =>b.User).WithMany().HasForeignKey(b=>b.UserId);
 
-            //builder.HasDefaultSchema("Identity");
+            //TASKS
+            builder.Entity<Task>().HasOne(t=>t.TaskStatus).WithMany().HasForeignKey(t=>t.TaskStatusId).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Task>().HasOne(t=>t.Workspace).WithMany().HasForeignKey(t=>t.WorkspaceId).OnDelete(DeleteBehavior.Restrict);
+
+            //RENAMING IDENTITY TABLES
             builder.Entity<ApplicationUser>(entity =>
             {
                 entity.ToTable(name: "User");
@@ -51,6 +60,12 @@ namespace ProjectFlow.Data
             {
                 entity.ToTable("UserTokens");
             });
+            //INSERTING DEFAULT TASKSTATUSES
+            builder.Entity<TaskStatus>().HasData(
+                new TaskStatus { Id = 1,Name = "To Do"},
+                new TaskStatus { Id = 2, Name = "Doing" },
+                new TaskStatus { Id = 3, Name = "Finished" }
+            );
         }
     }
 }
