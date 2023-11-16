@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectFlow.Data;
+using ProjectFlow.Models.View_Models;
 
 namespace ProjectFlow.Web.Controllers
 {
@@ -11,10 +13,22 @@ namespace ProjectFlow.Web.Controllers
         {
             _db = db;
         }
-        public IActionResult MyWorkspace()
+        public IActionResult MyWorkspace(int id)
         {
-            
-            return View();
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            var board = _db.Workspaces.FirstOrDefault(u => u.Id == id);
+            if (board != null && board.UserId == userId)
+            {
+                var workspace = new WorkspaceViewModel
+                {
+                    Workspace = board,
+                    Tasks = _db.Tasks.Where(u => u.WorkspaceId == board.Id).ToList()
+                };
+                return View(workspace);
+            }
+            TempData["error"] = "You dont have access to this dashboard!";
+            return RedirectToAction("Index","Dashboard");
         }
 
 

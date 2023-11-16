@@ -1,4 +1,5 @@
-﻿@model ProjectFlow.Models.View_Models.DashboardViewModel
+﻿@using Azure
+@model ProjectFlow.Models.View_Models.DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -14,9 +15,10 @@
         </div>
         @foreach (var workspace in Model.Workspaces.OrderByDescending(w=>w.DateCreated))
         {
-            <div class="col-3 Board me-3 mb-3" style="background-color:@workspace.Color">
+            <a asp-controller="Workspace" asp-action="MyWorkspace" asp-route-id="@workspace.Id" class="col-3 Board me-3 mb-3 text-decoration-none" 
+               style="background-color:@workspace.Color">
                 <p class="workspaceTitle">@workspace.Name</p>
-            </div>
+            </a>
         }
     </div>
     @if (Model.Workspaces.Count() == 0)
@@ -30,7 +32,7 @@
             </div>
             <form method="POST" class="px-5 mt-2 pb-3">
                 <h1>Add Workspace</h1>
-                <div class="form-floating mb-3 mt-4">
+                <div class="form-floating mb-3 mt-4" >
                     <input asp-for="@Model.CreateWorkspace.Name" class="form-control" placeholder="Name" />
                     <label asp-for="@Model.CreateWorkspace.Name" class="form-label">Workspace name</label>
                     <span asp-validation-for="@Model.CreateWorkspace.Name" class="text-danger fw-semibold workspaceValidation"></span>
@@ -48,7 +50,7 @@
 
 @section Scripts
 {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
     <script>
         function toggleWorkspace(){
             $('.addWorkSpace').toggle();
