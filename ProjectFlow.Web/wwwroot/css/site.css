@@ -85,3 +85,18 @@ body {
     background-color: aliceblue;
     font-size: 20px;
 }
+.workspaceContainer {
+    width: 100%;
+    border-radius:5px;
+    margin-left:auto;
+    margin-right: auto;
+    padding-top: 10px;
+}
+.TaskContainer {
+    width: 35%;
+    min-width:300px;
+    padding-bottom:30px;
+    background-color: #78c2ad;
+    margin-right: 10px;
+    border-radius: 5px;
+}
