@@ -58,19 +58,8 @@ namespace ProjectFlow.Web.Controllers
                 return Json(new { success = false, message = $"Error while deleting workspace: {ex.Message}" });
             }
         }
-        [HttpDelete]
-        public IActionResult remove(int id)
-        {
-            var workspace = _db.Workspaces.FirstOrDefault(u => u.Id == id);
-            if (workspace != null)
-            {
-                _db.Workspaces.Remove(workspace);
-                _db.SaveChanges();
-                return Json(new { success = true, message = "Removed Workspace: "});
-            }
-            return Json(new { success = false, message = "Error: while removing Workspace " });
 
-        }
         #endregion
+
     }
 }
