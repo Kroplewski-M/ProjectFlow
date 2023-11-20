@@ -29,7 +29,7 @@ namespace ProjectFlow.Data
 
             //TASKS
             builder.Entity<Task>().HasOne(t=>t.TaskStatus).WithMany().HasForeignKey(t=>t.TaskStatusId).OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Task>().HasOne(t=>t.Workspace).WithMany().HasForeignKey(t=>t.WorkspaceId).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Task>().HasOne(t=>t.Workspace).WithMany().HasForeignKey(t=>t.WorkspaceId).OnDelete(DeleteBehavior.Cascade);
 
             //RENAMING IDENTITY TABLES
             builder.Entity<ApplicationUser>(entity =>

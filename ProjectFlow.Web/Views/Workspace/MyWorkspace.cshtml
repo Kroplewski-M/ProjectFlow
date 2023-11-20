@@ -58,12 +58,12 @@
                         <label class="form-label text-light fw-semibold mt-2">Project Background</label>
                         <input type="color" class="form-control" placeholder="Color" value="#FFFFFF" style="cursor:pointer"/>
                     </div>
-                    <div class="d-flex mt-4">
-                        <button class="btn btn-dark">Update</button>
-                        <button class="btn btn-secondary ms-2">Delete Project</button>
+                    <div class="mt-4">
+                        <button class="btn btn-dark" type="submit">Update</button>
                     </div>
-
                 </form>
+                <button class="btn btn-secondary mt-2" onclick="deleteWorkspace(@Model.Workspace.Id)">Delete Project</button>
+
             </div>
         </div>
     </div>
@@ -74,6 +74,33 @@
     <script>
         function toggleSettings(){
             $('.workspaceSettingsContainer').toggle();
+        }
+        function deleteWorkspace(workspaceId){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Workspace/DeleteWorkspace/' + workspaceId,
+                        type: 'DELETE',
+                        success: function (data) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your workspace has been deleted.',
+                                'success'
+                            ).then(function () {
+                                window.location.href = '/Dashboard';
+                            });
+                        }
+                    });
+                }
+            });
         }
     </script>
 }
