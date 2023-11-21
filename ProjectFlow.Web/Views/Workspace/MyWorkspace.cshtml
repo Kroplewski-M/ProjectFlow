@@ -50,6 +50,7 @@
         <div class="row">
             <div class="col-10 mx-auto">
                 <form method="POST" id="updateWorkspaceForm">
+                    @Html.AntiForgeryToken()
                     <input type="" asp-for="EditWorkspace.Id" hidden/>
                     <div>
                         <label class="form-label text-light fw-semibold">Project Name</label>

@@ -31,15 +31,16 @@
                 <button class="btn btn-secondary">Close</button>
             </div>
             <form method="POST" class="px-5 mt-2 pb-3">
+                @Html.AntiForgeryToken()
                 <h1>Add Workspace</h1>
-                <div class="form-floating mb-3 mt-4" >
-                    <input asp-for="@Model.CreateWorkspace.Name" class="form-control" placeholder="Name" />
+                <div class="form-floating mb-3 mt-4">
+                    <input asp-for="@Model.CreateWorkspace.Name" class="form-control" placeholder="Name"/>
                     <label asp-for="@Model.CreateWorkspace.Name" class="form-label">Workspace name</label>
                     <span asp-validation-for="@Model.CreateWorkspace.Name" class="text-danger fw-semibold workspaceValidation"></span>
                 </div>
                 <div class="mb-3 mt-4">
                     <label asp-for="@Model.CreateWorkspace.Color" class="form-label text-light fs-5">Color</label>
-                    <input type="color" asp-for="@Model.CreateWorkspace.Color" class="form-control" placeholder="Color" style="cursor:pointer" />
+                    <input type="color" asp-for="@Model.CreateWorkspace.Color" class="form-control" placeholder="Color" style="cursor:pointer"/>
                     <span asp-validation-for="@Model.CreateWorkspace.Color" class="text-secondary"></span>
                 </div>
                 <button type="submit" class="w-100 btn btn-lg btn-light">Create Workspace</button>
