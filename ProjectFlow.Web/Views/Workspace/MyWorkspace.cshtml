@@ -3,10 +3,10 @@
     ViewData["Title"] = @Model.Workspace.Name;
 }
 
-<div class="container overflow-scroll">
+<div class="container overflow-scroll" id="workspaceBg">
     <div class="row">
         <div class="col-6">
-            <h1 class="fw-semibold">@Model.Workspace.Name</h1>
+            <h1 class="fw-semibold bg-primary rounded ps-1">Workspace - @Model.Workspace.Name</h1>
         </div>
         <div class="col-6 d-flex justify-content-end">
             <button class="btn btn-primary" onclick="toggleSettings()"><i class="bi bi-gear-fill"></i></button>
@@ -49,17 +49,18 @@
         <h3 class="text-center fw-semibold pt-2">Settings</h3>
         <div class="row">
             <div class="col-10 mx-auto">
-                <form>
+                <form method="POST" id="updateWorkspaceForm">
+                    <input type="" asp-for="EditWorkspace.Id" hidden/>
                     <div>
                         <label class="form-label text-light fw-semibold">Project Name</label>
-                        <input type="text" value="@Model.Workspace.Name" class="form-control fw-semibold text-dark"/>
+                        <input type="text" asp-for="EditWorkspace.Name" class="form-control fw-semibold text-dark"/>
                     </div>
                     <div>
                         <label class="form-label text-light fw-semibold mt-2">Project Background</label>
-                        <input type="color" class="form-control" placeholder="Color" value="#FFFFFF" style="cursor:pointer"/>
+                        <input type="color" class="form-control" placeholder="Color" asp-for="EditWorkspace.Color" style="cursor:pointer"/>
                     </div>
                     <div class="mt-4">
-                        <button class="btn btn-dark" type="submit">Update</button>
+                        <button class="btn btn-dark" type="button" onclick="updateWorkspace()">Update</button>
                     </div>
                 </form>
                 <button class="btn btn-secondary mt-2" onclick="deleteWorkspace(@Model.Workspace.Id)">Delete Project</button>
@@ -72,6 +73,11 @@
 @section Scripts
 {
     <script>
+        $(function () {
+            $('body').css("background-color", "@Model.Workspace.backgroundColor");
+        })
+        
+
         function toggleSettings(){
             $('.workspaceSettingsContainer').toggle();
         }
@@ -102,5 +108,25 @@
                 }
             });
         }
+        function updateWorkspace() {
+            var formData = $('#updateWorkspaceForm').serialize();
+
+            $.ajax({
+                url: '/Workspace/UpdateWorkspace',
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        Swal.fire('Error!', data.message, 'error');
+                    }
+                },
+                error: function () {
+                    Swal.fire('Error!', 'An error occurred while updating the workspace.', 'error');
+                }
+            });
+        }
+    
     </script>
 }
