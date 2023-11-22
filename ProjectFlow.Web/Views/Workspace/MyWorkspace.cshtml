@@ -9,7 +9,7 @@
             <h1 class="fw-semibold bg-primary rounded ps-1">Workspace - @Model.Workspace.Name</h1>
         </div>
         <div class="col-6 d-flex justify-content-end">
-            <button class="btn btn-primary" onclick="toggleSettings()"><i class="bi bi-gear-fill"></i></button>
+            <button class="btn btn-primary me-2" onclick="toggleSettings()"><i class="bi bi-gear-fill"></i></button>
         </div>
     </div>
     <div class="d-flex workspaceContainer">
@@ -22,8 +22,13 @@
             <div class="d-flex flex-column mt-3">
                 @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 1))
                 {
-                    <div class="bg-light rounded mt-2 ps-2 pt-2">
+                    <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
+                        <div class="d-flex">
+                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                        </div>
                     </div>
                 }
             </div>
@@ -35,10 +40,15 @@
                 <span class="text-danger fw-semibold workspaceValidation"></span>
             </div>
             <div class="d-flex flex-column mt-3">
-                @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 2))
+                @foreach (var task in @Model.Tasks.Where(t => t.TaskStatusId == 2).OrderByDescending(w => w.CreatedDate))
                 {
-                    <div class="bg-light rounded mt-2 ps-2 pt-2">
+                    <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
+                        <div class="d-flex">
+                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                        </div>
                     </div>
                 }
             </div> 
@@ -52,8 +62,13 @@
             <div class="d-flex flex-column mt-3">
                 @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 3))
                 {
-                    <div class="bg-light rounded mt-2 ps-2 pt-2">
+                    <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
+                        <div class="d-flex">
+                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                        </div>
                     </div>
                 }
             </div>
