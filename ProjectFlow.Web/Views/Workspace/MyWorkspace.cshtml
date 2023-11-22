@@ -12,27 +12,50 @@
             <button class="btn btn-primary" onclick="toggleSettings()"><i class="bi bi-gear-fill"></i></button>
         </div>
     </div>
-    <div class="d-flex workspaceContainer ">
+    <div class="d-flex workspaceContainer">
         <div class="TaskContainer p-2">
             <h3 class="fw-bold">To Do:</h3>
             <div class=" ">
-                <input class="form-control" placeholder="Add to do item" id="toDoInput"/>
+                <input class="form-control" placeholder="Add to do item" onkeypress="checkEnter(event, '1')" id="1" />
                 <span class="text-danger fw-semibold workspaceValidation"></span>
             </div>
-
+            <div class="d-flex flex-column mt-3">
+                @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 1))
+                {
+                    <div class="bg-light rounded mt-2 ps-2 pt-2">
+                        <p class="fw-semibold">@task.Title</p>
+                    </div>
+                }
+            </div>
         </div>
         <div class="TaskContainer p-2">
             <h3 class="fw-bold">Doing:</h3>
             <div class="">
-                <input class="form-control" placeholder="Add doing item" id="doingInput"/>
+                <input class="form-control" placeholder="Add doing item" onkeypress="checkEnter(event, '2')" id="2" />
                 <span class="text-danger fw-semibold workspaceValidation"></span>
             </div>
+            <div class="d-flex flex-column mt-3">
+                @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 2))
+                {
+                    <div class="bg-light rounded mt-2 ps-2 pt-2">
+                        <p class="fw-semibold">@task.Title</p>
+                    </div>
+                }
+            </div> 
         </div>
         <div class="TaskContainer p-2">
             <h3 class="fw-bold">Done:</h3>
             <div class="">
-                <input class="form-control" placeholder="Add done item" id="doneInput"/>
+                <input class="form-control" placeholder="Add done item" onkeypress="checkEnter(event, '3')" id="3" />
                 <span class="text-danger fw-semibold workspaceValidation"></span>
+            </div>
+            <div class="d-flex flex-column mt-3">
+                @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 3))
+                {
+                    <div class="bg-light rounded mt-2 ps-2 pt-2">
+                        <p class="fw-semibold">@task.Title</p>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -74,12 +97,12 @@
         $(function () {
             $('body').css("background-color", "@Model.Workspace.backgroundColor");
         })
-        
 
-        function toggleSettings(){
+
+        function toggleSettings() {
             $('.workspaceSettingsContainer').toggle();
         }
-        function deleteWorkspace(workspaceId){
+        function deleteWorkspace(workspaceId) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -125,6 +148,33 @@
                 }
             });
         }
-    
+        function checkEnter(event, taskStatus) {
+            if (event.keyCode === 13) {
+                addTask(taskStatus);
+            }
+        }
+
+        function addTask(taskStatus) {
+            var input = $("#" + taskStatus).val();
+            var taskStatusId = parseInt(taskStatus);
+            $.ajax({
+                url: '/Workspace/AddTaskToWorkspace', // Update the URL to your actual task creation endpoint
+                type: 'POST',
+                data: {
+                    workspaceId: @Model.Workspace.Id,
+                    taskStatusId: taskStatusId,
+                    taskValue: input,
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function () {
+                    location.reload();
+
+                }
+            });
+
+        }
     </script>
+
 }
