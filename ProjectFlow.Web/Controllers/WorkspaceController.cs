@@ -155,6 +155,27 @@ namespace ProjectFlow.Web.Controllers
                 return Json(new { success = false, message = $"Error while updating workspace: {ex.Message}" });
             }
         }
+        [HttpPost]
+        public IActionResult MoveTask(int Id, int taskStatus)
+        {
+            try
+            {
+                var task = _db.Tasks.FirstOrDefault(x => x.Id == Id);
+                if(task != null)
+                {
+                    task.TaskStatusId = taskStatus;
+                    _db.SaveChanges();
+                    return Json(new { success = true, message = "task moved" });
+                }
+                return Json(new { success = false, message = "task not moved" });
+
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Error while deleting task!";
+                return Json(new { success = false, message = $"Error while updating workspace: {ex.Message}" });
+            }
+        }
         #endregion
 
     }
