@@ -3,7 +3,7 @@
     ViewData["Title"] = @Model.Workspace.Name;
 }
 
-<div class="container overflow-scroll" id="workspaceBg">
+<div class="container overflow-md-hidden overflow-scroll" id="workspaceBg">
     <div class="row">
         <div class="col-6">
             <h1 class="fw-semibold bg-primary rounded ps-1">Workspace - @Model.Workspace.Name</h1>
@@ -22,14 +22,26 @@
             <div class="d-flex flex-column mt-3">
                 @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 1))
                 {
-                    <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
-                        <p class="fw-semibold">@task.Title</p>
-                        <div class="d-flex">
-                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
-                            <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
-                            <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                    @if (!task.IsEditing)
+                    {
+                        <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
+                            <p class="fw-semibold">@task.Title</p>
+                            <div class="d-flex">
+                                <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
+                                <div onclick="deleteTask(@task.Id)">
+                                    <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                                </div>
+                                <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
+                            <input class="form-control" value="@task.Title" />
+                        </div>
+                    }
+
                 }
             </div>
         </div>
@@ -45,8 +57,11 @@
                     <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
                         <div class="d-flex">
-                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
-                            <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
+                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer" id="editTask"></i>
+                            <div onclick="deleteTask(@task.Id)">
+                                <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            </div>
                             <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
                         </div>
                     </div>
@@ -62,12 +77,14 @@
             <div class="d-flex flex-column mt-3">
                 @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 3))
                 {
-                    <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
+                    <div class="bg-dark-subtle rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
                         <div class="d-flex">
+                            <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
                             <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
-                            <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
-                            <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                            <div onclick="deleteTask(@task.Id)">
+                                <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            </div>
                         </div>
                     </div>
                 }
@@ -188,7 +205,15 @@
 
                 }
             });
-
+        }
+        function deleteTask(taskId) {
+            $.ajax({
+                url: '/Workspace/DeleteTask/' + taskId,
+                type: 'DELETE',
+                success: function (data) {
+                    location.reload();
+                }
+            });
         }
     </script>
 

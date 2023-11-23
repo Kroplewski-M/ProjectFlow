@@ -1,4 +1,4 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @hostname=localhost
 @port=7200
-Delete https://{{hostname}}:{{port}}/Workspace/remove/4
+Delete https://{{hostname}}:{{port}}/Workspace/DeleteTask/5

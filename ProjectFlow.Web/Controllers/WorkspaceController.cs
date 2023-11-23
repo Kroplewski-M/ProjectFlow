@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectFlow.Data;
 using ProjectFlow.Models.View_Models;
 using ProjectFlow.Models.Business_Models;
+using System.Threading.Tasks;
 
 namespace ProjectFlow.Web.Controllers
 {
@@ -19,12 +20,20 @@ namespace ProjectFlow.Web.Controllers
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             var board = _db.Workspaces.FirstOrDefault(u => u.Id == id);
+            
             if (board != null && board.UserId == userId)
             {
                 var workspace = new WorkspaceViewModel
                 {
                     Workspace = board,
-                    Tasks = _db.Tasks.Where(u => u.WorkspaceId == board.Id).ToList(),
+                    Tasks = _db.Tasks.Where(u => u.WorkspaceId == board.Id).Select(t=> new TaskViewModel
+                    {
+                        Id = t.Id,
+                        Title = t.Title,
+                        CreatedDate = t.CreatedDate,
+                        TaskStatusId = t.TaskStatusId,
+                        IsEditing = false
+                    }).ToList(),
                     EditWorkspace= new EditWorkspaceViewModel
                     {
                         Id = board.Id,
@@ -123,6 +132,26 @@ namespace ProjectFlow.Web.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Error while added task!";
+                return Json(new { success = false, message = $"Error while updating workspace: {ex.Message}" });
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteTask(int id)
+        {
+            try
+            {
+                var task = _db.Tasks.FirstOrDefault(x => x.Id == id);
+                if (task != null)
+                {
+                    _db.Tasks.Remove(task);
+                    _db.SaveChanges();
+                    return Json(new { success = true, message = "task added" });
+                }
+                    return Json(new { success = false, message = "task not deleted" });
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Error while deleting task!";
                 return Json(new { success = false, message = $"Error while updating workspace: {ex.Message}" });
             }
         }

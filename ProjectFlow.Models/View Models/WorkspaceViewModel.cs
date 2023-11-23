@@ -11,7 +11,7 @@ namespace ProjectFlow.Models.View_Models
     public class WorkspaceViewModel
     {
         public Workspace Workspace { get; set; }
-        public IEnumerable<Task> Tasks { get; set; }
+        public IEnumerable<TaskViewModel> Tasks { get; set; }
         public EditWorkspaceViewModel EditWorkspace { get; set; }
     }
 }
