@@ -31,7 +31,9 @@
                                 <div onclick="deleteTask(@task.Id)">
                                     <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
                                 </div>
-                                <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                                <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'right')" class="border">
+                                    <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                                </div>
                             </div>
                         </div>
                     }
@@ -57,12 +59,16 @@
                     <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
                         <div class="d-flex">
-                            <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
+                            <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'left')">
+                                <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
+                            </div>
                             <i class="bi bi-pencil-fill me-2" style="cursor:pointer" id="editTask"></i>
                             <div onclick="deleteTask(@task.Id)">
                                 <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
                             </div>
-                            <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                            <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'right')">
+                                <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
+                            </div>
                         </div>
                     </div>
                 }
@@ -80,7 +86,9 @@
                     <div class="bg-dark-subtle rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
                         <p class="fw-semibold">@task.Title</p>
                         <div class="d-flex">
-                            <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
+                            <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'left')">
+                                <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
+                            </div>
                             <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
                             <div onclick="deleteTask(@task.Id)">
                                 <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
@@ -190,7 +198,7 @@
             var input = $("#" + taskStatus).val();
             var taskStatusId = parseInt(taskStatus);
             $.ajax({
-                url: '/Workspace/AddTaskToWorkspace', // Update the URL to your actual task creation endpoint
+                url: '/Workspace/AddTaskToWorkspace',
                 type: 'POST',
                 data: {
                     workspaceId: @Model.Workspace.Id,
@@ -211,6 +219,31 @@
                 url: '/Workspace/DeleteTask/' + taskId,
                 type: 'DELETE',
                 success: function (data) {
+                    location.reload();
+                }
+            });
+        }
+        function moveTask(taskId,taskStatus,taskDirection){
+            //"TaskId: " + taskId + "TaskStatus: " + taskStatus + "TaskDirection: " + taskDirection);
+
+            var newTaskStatus = 1;
+            if(taskDirection == 'right'){
+                newTaskStatus = taskStatus + 1;
+            }
+            else{
+                newTaskStatus = taskStatus - 1;
+            }
+            $.ajax({
+                url: '/Workspace/MoveTask', 
+                type: 'POST',
+                data: {
+                    taskId: taskId,
+                    taskStatus: newTaskStatus,
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function () {
                     location.reload();
                 }
             });

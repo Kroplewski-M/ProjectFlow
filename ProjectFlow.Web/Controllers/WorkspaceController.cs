@@ -156,11 +156,11 @@ namespace ProjectFlow.Web.Controllers
             }
         }
         [HttpPost]
-        public IActionResult MoveTask(int Id, int taskStatus)
+        public IActionResult MoveTask(int taskId, int taskStatus)
         {
             try
             {
-                var task = _db.Tasks.FirstOrDefault(x => x.Id == Id);
+                var task = _db.Tasks.FirstOrDefault(x => x.Id == taskId);
                 if(task != null)
                 {
                     task.TaskStatusId = taskStatus;
@@ -173,7 +173,7 @@ namespace ProjectFlow.Web.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Error while deleting task!";
-                return Json(new { success = false, message = $"Error while updating workspace: {ex.Message}" });
+                return Json(new { success = false, message = $"Error while moving task: {ex.Message}" });
             }
         }
         #endregion
