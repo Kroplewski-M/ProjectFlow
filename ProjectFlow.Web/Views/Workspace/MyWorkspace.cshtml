@@ -22,28 +22,17 @@
             <div class="d-flex flex-column mt-3">
                 @foreach (var task in @Model.Tasks.Where(t=> t.TaskStatusId == 1))
                 {
-                    @if (!task.IsEditing)
-                    {
-                        <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
-                            <p class="fw-semibold">@task.Title</p>
-                            <div class="d-flex">
-                                <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
-                                <div onclick="deleteTask(@task.Id)">
-                                    <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
-                                </div>
-                                <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'right')" class="border">
-                                    <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
-                                </div>
+                    <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
+                        <p class="fw-semibold">@task.Title</p>
+                        <div class="d-flex">
+                            <div onclick="deleteTask(@task.Id)">
+                                <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
+                            </div>
+                            <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'right')">
+                                <i class="bi bi-arrow-right-circle-fill me-2" style="cursor:pointer"></i>
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="bg-light rounded mt-2 ps-2 pt-2 d-flex justify-content-between">
-                            <input class="form-control" value="@task.Title" />
-                        </div>
-                    }
-
+                    </div>
                 }
             </div>
         </div>
@@ -62,7 +51,6 @@
                             <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'left')">
                                 <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
                             </div>
-                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer" id="editTask"></i>
                             <div onclick="deleteTask(@task.Id)">
                                 <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
                             </div>
@@ -89,7 +77,6 @@
                             <div onclick="moveTask(@task.Id, @task.TaskStatusId, 'left')">
                                 <i class="bi bi-arrow-left-circle-fill me-2" style="cursor:pointer"></i>
                             </div>
-                            <i class="bi bi-pencil-fill me-2" style="cursor:pointer"></i>
                             <div onclick="deleteTask(@task.Id)">
                                 <i class="bi bi-x-circle-fill text-secondary me-2" style="cursor:pointer"></i>
                             </div>
@@ -224,7 +211,6 @@
             });
         }
         function moveTask(taskId,taskStatus,taskDirection){
-            //"TaskId: " + taskId + "TaskStatus: " + taskStatus + "TaskDirection: " + taskDirection);
 
             var newTaskStatus = 1;
             if(taskDirection == 'right'){
